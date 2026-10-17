@@ -1,0 +1,21 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="180" height="180" viewBox="0 0 180 180">
+  <g fill="none" stroke="#9E0A7B" stroke-width="14" stroke-linecap="round" stroke-linejoin="round" opacity="0.45">
+    <!-- Large, spacious labyrinth meandering zigzag matching official banner -->
+    <!-- Meander 1: Top-Left to Center -->
+    <path d="M-20 40 L50 40 L50 90 L-20 90" />
+    <path d="M160 40 L200 40" />
+    <path d="M160 90 L200 90" />
+
+    <!-- Meander 2: Vertical and Diagonal Center Maze -->
+    <path d="M90 -20 L90 50 L140 50 L140 130 L90 130 L90 200" />
+
+    <!-- Meander 3: Bottom-Left -->
+    <path d="M-20 140 L40 140 L40 190" />
+    <path d="M160 140 L200 140" />
+    
+    <!-- Meander 4: Top-Right Corner Interlock -->
+    <path d="M40 -20 L40 0 L-20 60" />
+    <path d="M140 -20 L140 0 L190 50" />
+    <path d="M40 160 L40 200" />
+  </g>
+</svg>
