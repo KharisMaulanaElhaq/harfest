@@ -12,33 +12,39 @@ class EventService
 {
     /**
      * Get the active event with priority: on_sale (closest date) > upcoming > finished (newest).
+     *
+     * We cache only the event ID (an integer) to avoid __PHP_Incomplete_Class errors that occur
+     * when a serialized Eloquent model sitting in the cache cannot be unserialized after class
+     * changes or autoloader reloads.
      */
     public function active(): ?Event
     {
-        return Cache::remember('harfest_active_event', 60, function () {
+        $id = Cache::remember('harfest_active_event', 60, function () {
             // 1. First look for on_sale event with closest future or current event_date
-            $onSale = Event::where('status', EventStatus::OnSale)
+            $event = Event::where('status', EventStatus::OnSale)
                 ->orderBy('event_date', 'asc')
-                ->first();
+                ->value('id');
 
-            if ($onSale) {
-                return $onSale;
+            if ($event !== null) {
+                return $event;
             }
 
             // 2. Next look for upcoming event with closest event_date
-            $upcoming = Event::where('status', EventStatus::Upcoming)
+            $event = Event::where('status', EventStatus::Upcoming)
                 ->orderBy('event_date', 'asc')
-                ->first();
+                ->value('id');
 
-            if ($upcoming) {
-                return $upcoming;
+            if ($event !== null) {
+                return $event;
             }
 
             // 3. Fallback to finished event with newest event_date
             return Event::where('status', EventStatus::Finished)
                 ->orderBy('event_date', 'desc')
-                ->first();
+                ->value('id');
         });
+
+        return $id !== null ? Event::find($id) : null;
     }
 
     /**

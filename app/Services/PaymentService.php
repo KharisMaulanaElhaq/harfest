@@ -64,12 +64,22 @@ class PaymentService
 
     /**
      * Approve payment proof and issue e-tickets.
+     *
+     * Guarded against double-approve: throws ValidationException if the
+     * payment has already been processed (status is no longer Pending).
      */
     public function approve(Payment $payment, User $admin): Order
     {
         return DB::transaction(function () use ($payment, $admin) {
             $lockedPayment = Payment::whereKey($payment->id)->lockForUpdate()->firstOrFail();
             $order = Order::whereKey($lockedPayment->order_id)->lockForUpdate()->firstOrFail();
+
+            // Guard: tolak jika pembayaran sudah pernah diproses sebelumnya
+            if ($lockedPayment->status !== PaymentStatus::Pending) {
+                throw ValidationException::withMessages([
+                    'payment' => "Pembayaran ini tidak dapat disetujui karena statusnya sudah '{$lockedPayment->status->label()}'. Mungkin sudah diproses oleh admin lain.",
+                ]);
+            }
 
             $lockedPayment->update([
                 'status' => PaymentStatus::Approved,

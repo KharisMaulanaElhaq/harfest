@@ -4,9 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use App\Enums\OrderStatus;
 use App\Http\Controllers\Controller;
-use App\Models\Event;
 use App\Models\Order;
-use App\Services\EventService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\View\View;
@@ -15,12 +13,12 @@ class DashboardController extends Controller
 {
     /**
      * Display admin overview dashboard filtered by the active working event.
+     * The current event is resolved by SetAdminEvent middleware and injected
+     * via request attributes — no fallback logic needed here.
      */
-    public function index(Request $request, EventService $eventService): View
+    public function index(Request $request): View
     {
-        $currentEvent = $request->attributes->get('admin_event') 
-            ?? $eventService->active() 
-            ?? Event::orderBy('edition', 'desc')->first();
+        $currentEvent = $request->attributes->get('admin_event');
 
         $eventId = $currentEvent?->id;
 
@@ -49,7 +47,7 @@ class DashboardController extends Controller
 
         // 5. Sisa kuota per jenis tiket untuk event terpilih
         $ticketTypes = $currentEvent
-            ? $currentEvent->ticketTypes()->orderBy('price')->get()
+            ? $currentEvent->ticketTypes()->withQuotaStats()->orderBy('price')->get()
             : collect();
 
         // 6. Daftar 5 pesanan terbaru untuk event terpilih
