@@ -1,4 +1,40 @@
-<nav x-data="{ mobileMenuOpen: false, userDropdownOpen: false }" class="sticky top-0 z-50 bg-hf-purple-900/95 backdrop-blur-md border-b-4 border-hf-purple-900 shadow-hard">
+<nav x-data="{
+        mobileMenuOpen: false,
+        userDropdownOpen: false,
+        activeSection: 'beranda',
+        initScrollSpy() {
+            // Hanya aktifkan di halaman '/' (landing page)
+            if (window.location.pathname !== '/') return;
+
+            const sections = [
+                { id: 'tiket',   key: 'tiket'   },
+                { id: 'lineup',  key: 'lineup'  },
+            ];
+
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        this.activeSection = sections.find(s => s.id === entry.target.id)?.key ?? 'beranda';
+                    }
+                });
+            }, {
+                rootMargin: '-30% 0px -60% 0px',
+                threshold: 0
+            });
+
+            sections.forEach(s => {
+                const el = document.getElementById(s.id);
+                if (el) observer.observe(el);
+            });
+
+            // Reset ke 'beranda' saat scroll balik ke paling atas
+            window.addEventListener('scroll', () => {
+                if (window.scrollY < 80) this.activeSection = 'beranda';
+            }, { passive: true });
+        }
+    }"
+    x-init="initScrollSpy()"
+    class="sticky top-0 z-50 bg-hf-purple-900/95 backdrop-blur-md border-b-4 border-hf-purple-900 shadow-hard">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div class="flex items-center justify-between h-16 sm:h-20">
             <!-- Left: Logo (Official Harfest Logo: Globe + Harfest Plate + Player) -->
@@ -10,20 +46,44 @@
 
             <!-- Center: Desktop Navigation (Montserrat 700/800 Extrabold) -->
             <div class="hidden md:flex items-center space-x-6 font-sans font-extrabold text-base tracking-wider uppercase">
-                <a href="{{ url('/') }}" class="text-white hover:text-hf-yellow-400 transition-colors {{ request()->is('/') && !request()->has('page') ? 'text-hf-yellow-400 underline decoration-hf-pink-500 decoration-4 underline-offset-8' : '' }}">
+                {{-- BERANDA: aktif via PHP di halaman lain, aktif via Alpine scrollspy di landing --}}
+                <a href="{{ url('/') }}"
+                   class="transition-colors hover:text-hf-yellow-400
+                          @if(!request()->is('/')) text-white @endif"
+                   :class="window.location.pathname === '/'
+                       ? (activeSection === 'beranda'
+                           ? 'underline decoration-hf-pink-500 decoration-4 underline-offset-8'
+                           : 'decoration-hf-pink-500')
+                       : '{{ request()->is('/') ? '' : '' }}'">
                     Beranda
                 </a>
-                <a href="{{ route('events.index') }}" class="text-white hover:text-hf-yellow-400 transition-colors {{ request()->routeIs('events.*') ? 'text-hf-yellow-400 underline decoration-hf-pink-500 decoration-4 underline-offset-8' : '' }}">
+
+                {{-- EVENT: murni PHP (halaman berbeda) --}}
+                <a href="{{ route('events.index') }}"
+                   class="transition-colors hover:text-hf-yellow-400 {{ request()->routeIs('events.*') ? 'underline decoration-hf-pink-500 decoration-4 underline-offset-8' : 'text-white' }}">
                     Event
                 </a>
-                <a href="{{ url('/#lineup') }}" class="text-white hover:text-hf-yellow-400 transition-colors">
+
+                {{-- LINEUP: scrollspy Alpine --}}
+                <a href="{{ url('/#lineup') }}"
+                   class="transition-colors hover:text-hf-yellow-400"
+                   :class="activeSection === 'lineup'
+                       ? 'underline decoration-hf-pink-500 decoration-4 underline-offset-8'
+                       : 'decoration-hf-pink-500'">
                     Lineup
                 </a>
-                <a href="{{ url('/#tiket') }}" class="text-white hover:text-hf-yellow-400 transition-colors">
+
+                {{-- TIKET: scrollspy Alpine --}}
+                <a href="{{ url('/#tiket') }}"
+                   class="transition-colors hover:text-hf-yellow-400"
+                   :class="activeSection === 'tiket'
+                       ? 'underline decoration-hf-pink-500 decoration-4 underline-offset-8'
+                       : 'decoration-hf-pink-500'">
                     Tiket
                 </a>
+
                 @auth
-                    <a href="{{ Route::has('orders.index') ? route('orders.index') : url('/orders') }}" class="text-white hover:text-hf-yellow-400 transition-colors {{ request()->is('orders*') ? 'text-hf-yellow-400 underline decoration-hf-pink-500 decoration-4 underline-offset-8' : '' }}">
+                    <a href="{{ Route::has('orders.index') ? route('orders.index') : url('/orders') }}" class="text-white hover:text-hf-yellow-400 transition-colors {{ request()->is('orders*') ? 'underline decoration-hf-pink-500 decoration-4 underline-offset-8' : '' }}">
                         Pesanan Saya
                     </a>
                     @if (Auth::user()->isAdmin())
