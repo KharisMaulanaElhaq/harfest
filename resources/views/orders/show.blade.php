@@ -563,12 +563,16 @@
                             @endif
 
                             <!-- E-Ticket Button (FR-11, FR-12) -->
-                            <div class="pt-2">
+                            <div class="pt-2 flex flex-col sm:flex-row gap-3">
                                 <a href="{{ route('orders.tickets', $order->booking_code) }}" 
-                                   class="inline-flex items-center justify-center gap-2.5 w-full py-4 px-6 bg-hf-yellow-400 hover:bg-hf-yellow-500 text-hf-purple-900 font-display text-base sm:text-lg uppercase rounded-2xl border-3 border-hf-purple-900 shadow-hard btn-press">
+                                   class="inline-flex items-center justify-center gap-2.5 flex-1 py-4 px-6 bg-hf-yellow-400 hover:bg-hf-yellow-500 text-hf-purple-900 font-display text-base uppercase rounded-2xl border-3 border-hf-purple-900 shadow-hard btn-press">
                                     <span>🎟️</span>
-                                    <span>Buka & Cetak E-Tiket QR ({{ $order->tickets()->count() }} Tiket)</span>
-                                    <span>→</span>
+                                    <span>Lihat E-Tiket QR ({{ $order->tickets()->count() }} Tiket)</span>
+                                </a>
+                                <a href="{{ route('orders.tickets.download', $order->booking_code) }}" 
+                                   class="inline-flex items-center justify-center gap-2 py-4 px-6 bg-emerald-500 hover:bg-emerald-600 text-white font-display text-base uppercase rounded-2xl border-3 border-hf-purple-900 shadow-hard btn-press">
+                                    <span>📥</span>
+                                    <span>Unduh PDF</span>
                                 </a>
                             </div>
                         </div>

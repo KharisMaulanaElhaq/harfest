@@ -61,6 +61,22 @@ class User extends Authenticatable
     }
 
     /**
+     * Check if user has staff role.
+     */
+    public function isStaff(): bool
+    {
+        return $this->role === UserRole::Staff;
+    }
+
+    /**
+     * Check if user has access to admin panel (admin or staff).
+     */
+    public function hasAdminAccess(): bool
+    {
+        return in_array($this->role, [UserRole::Admin, UserRole::Staff], true);
+    }
+
+    /**
      * Orders placed by this user.
      */
     public function orders(): HasMany

@@ -229,4 +229,44 @@ class TicketAndCheckinTest extends TestCase
             'result' => 'success',
         ]);
     }
+
+    public function test_user_can_download_eticket_pdf_when_paid(): void
+    {
+        $order = Order::create([
+            'booking_code' => 'HF-PDF-TEST-001',
+            'user_id' => $this->user->id,
+            'ticket_type_id' => $this->singleTicket->id,
+            'quantity' => 1,
+            'total_price' => 40000,
+            'status' => OrderStatus::Paid,
+            'expires_at' => now()->addHours(24),
+        ]);
+
+        // 1. Owner can download PDF
+        $response = $this->actingAs($this->user)->get(route('orders.tickets.download', $order->booking_code));
+        $response->assertOk();
+        $this->assertStringContainsString('application/pdf', $response->headers->get('content-type'));
+        $this->assertStringContainsString('attachment;', $response->headers->get('content-disposition'));
+        $this->assertStringContainsString('HF-PDF-TEST-001', $response->headers->get('content-disposition'));
+
+        // 2. Other user forbidden
+        $this->actingAs($this->otherUser)
+            ->get(route('orders.tickets.download', $order->booking_code))
+            ->assertForbidden();
+
+        // 3. Unpaid order cannot download
+        $unpaidOrder = Order::create([
+            'booking_code' => 'HF-UNPAID-001',
+            'user_id' => $this->user->id,
+            'ticket_type_id' => $this->singleTicket->id,
+            'quantity' => 1,
+            'total_price' => 40000,
+            'status' => OrderStatus::PendingPayment,
+            'expires_at' => now()->addHours(24),
+        ]);
+
+        $this->actingAs($this->user)
+            ->get(route('orders.tickets.download', $unpaidOrder->booking_code))
+            ->assertRedirect(route('orders.show', $unpaidOrder->booking_code));
+    }
 }

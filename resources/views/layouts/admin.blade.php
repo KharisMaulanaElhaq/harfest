@@ -20,11 +20,14 @@
       x-data="{ sidebarOpen: false }">
 
     @php
-        $pendingPaymentsQuery = \App\Models\Payment::where('status', \App\Enums\PaymentStatus::Pending);
-        if (isset($currentAdminEvent) && $currentAdminEvent) {
-            $pendingPaymentsQuery->whereHas('order', fn($q) => $q->where('event_id', $currentAdminEvent->id));
+        $pendingPaymentsCount = 0;
+        if (Gate::allows('is-admin')) {
+            $pendingPaymentsQuery = \App\Models\Payment::where('status', \App\Enums\PaymentStatus::Pending);
+            if (isset($currentAdminEvent) && $currentAdminEvent) {
+                $pendingPaymentsQuery->whereHas('order', fn($q) => $q->where('event_id', $currentAdminEvent->id));
+            }
+            $pendingPaymentsCount = $pendingPaymentsQuery->count();
         }
-        $pendingPaymentsCount = $pendingPaymentsQuery->count();
     @endphp
 
     <div class="min-h-full flex flex-col md:flex-row">
@@ -79,6 +82,7 @@
                         </div>
                     </a>
 
+                    @can('is-admin')
                     <!-- Verifikasi Pembayaran -->
                     <a href="{{ route('admin.payments.index') }}" 
                        class="flex items-center justify-between px-3.5 py-2.5 rounded-xl border-2 transition-all {{ request()->routeIs('admin.payments.*') ? 'bg-hf-yellow-400 text-hf-purple-900 border-hf-purple-950 shadow-hard-sm font-black' : 'border-transparent text-purple-200 hover:bg-hf-purple-800 hover:text-white' }}">
@@ -92,6 +96,7 @@
                             </span>
                         @endif
                     </a>
+                    @endcan
 
                     <!-- Data Pesanan & Ekspor -->
                     <a href="{{ route('admin.orders.index') }}" 
@@ -102,6 +107,7 @@
                         </div>
                     </a>
 
+                    @can('is-admin')
                     <!-- Kelola Event -->
                     <a href="{{ route('admin.events.index') }}" 
                        class="flex items-center justify-between px-3.5 py-2.5 rounded-xl border-2 transition-all {{ request()->routeIs('admin.events.*') ? 'bg-hf-yellow-400 text-hf-purple-900 border-hf-purple-950 shadow-hard-sm font-black' : 'border-transparent text-purple-200 hover:bg-hf-purple-800 hover:text-white' }}">
@@ -128,6 +134,7 @@
                             <span>Lineup Band</span>
                         </div>
                     </a>
+                    @endcan
 
                     <!-- Scanner Check-in (FR-20) -->
                     <a href="{{ route('admin.checkin.index') }}" 
@@ -148,7 +155,9 @@
                     </div>
                     <div class="overflow-hidden">
                         <span class="font-display text-xs text-white truncate block">{{ Auth::user()->name }}</span>
-                        <span class="inline-block px-1.5 py-0.2 bg-hf-pink-500 text-white font-sans text-[10px] font-bold rounded">PANITIA</span>
+                        <span class="inline-block px-1.5 py-0.2 {{ Auth::user()->isStaff() ? 'bg-amber-600' : 'bg-hf-pink-500' }} text-white font-sans text-[10px] font-bold rounded">
+                            {{ Auth::user()->isStaff() ? 'STAFF' : 'ADMIN' }}
+                        </span>
                     </div>
                 </div>
 
@@ -192,8 +201,8 @@
                         <span>↗</span>
                     </a>
 
-                    <div class="px-2.5 py-1 bg-hf-purple-100 text-hf-purple-900 text-xs font-display font-bold rounded-xl border border-hf-purple-300">
-                        ADMIN
+                    <div class="px-2.5 py-1 {{ Auth::user()->isStaff() ? 'bg-amber-100 text-amber-900 border-amber-300' : 'bg-purple-100 text-purple-900 border-purple-300' }} text-xs font-display font-bold rounded-xl border">
+                        {{ Auth::user()->isStaff() ? 'STAFF' : 'ADMIN' }}
                     </div>
                 </div>
             </header>

@@ -71,12 +71,16 @@
             <p class="font-bold mb-1 text-center">💡 Akun Demo Cepat:</p>
             <div class="flex flex-col gap-1 text-[11px]">
                 <div class="flex justify-between">
-                    <span>Admin: <strong class="select-all">admin@harfest.test</strong></span>
-                    <span>Sandi: <strong class="select-all">password</strong></span>
+                    <span>User  : <strong class="select-all">user@harfest.test</strong></span>
+                    <span>Sandi : <strong class="select-all">password</strong></span>
                 </div>
                 <div class="flex justify-between">
-                    <span>User: <strong class="select-all">user@harfest.test</strong></span>
-                    <span>Sandi: <strong class="select-all">password</strong></span>
+                    <span>Staff : <strong class="select-all">staff@harfest.test</strong></span>
+                    <span>Sandi : <strong class="select-all">password</strong></span>
+                </div>
+                <div class="flex justify-between">
+                    <span>Admin : <strong class="select-all">admin@harfest.test</strong></span>
+                    <span>Sandi : <strong class="select-all">password</strong></span>
                 </div>
             </div>
         </div>

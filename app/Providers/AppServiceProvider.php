@@ -2,6 +2,10 @@
 
 namespace App\Providers;
 
+use App\Enums\UserRole;
+use App\Models\User;
+use Carbon\Carbon;
+use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\ServiceProvider;
 
 class AppServiceProvider extends ServiceProvider
@@ -19,6 +23,8 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
-        \Carbon\Carbon::setLocale('id');
+        Carbon::setLocale('id');
+
+        Gate::define('is-admin', fn (User $user) => $user->role === UserRole::Admin || $user->role === 'admin');
     }
 }

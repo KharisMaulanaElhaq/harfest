@@ -37,5 +37,17 @@ class AdminSeeder extends Seeder
                 'email_verified_at' => now(),
             ]
         );
+
+        // 3. Akun Staff
+        User::updateOrCreate(
+            ['email' => 'staff@harfest.test'],
+            [
+                'name' => 'Staff',
+                'phone' => '081298765432',
+                'password' => Hash::make('password'),
+                'role' => UserRole::Staff,
+                'email_verified_at' => now(),
+            ]
+        );
     }
 }

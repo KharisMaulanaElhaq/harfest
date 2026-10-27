@@ -19,7 +19,12 @@
                     </p>
                 </div>
 
-                <div class="flex items-center gap-3">
+                <div class="flex flex-wrap items-center gap-3">
+                    <a href="{{ route('orders.tickets.download', $order->booking_code) }}" 
+                       class="px-5 py-3 bg-emerald-500 hover:bg-emerald-600 text-white font-display text-sm uppercase rounded-2xl border-3 border-hf-purple-900 shadow-hard btn-press flex items-center gap-2">
+                        <span>📥</span>
+                        <span>Unduh PDF</span>
+                    </a>
                     <button onclick="window.print()" 
                             class="px-5 py-3 bg-hf-yellow-400 hover:bg-hf-yellow-500 text-hf-purple-900 font-display text-sm uppercase rounded-2xl border-3 border-hf-purple-900 shadow-hard btn-press flex items-center gap-2 cursor-pointer">
                         <span>🖨️</span>
@@ -49,7 +54,7 @@
                             <div>
                                 <div class="flex items-center justify-between gap-2 border-b-3 border-hf-purple-900/20 pb-3 mb-4">
                                     <div class="flex items-center gap-2.5">
-                                        <img src="{{ asset('images/logo/harfest-logo.svg') }}" alt="Harfest" class="h-7 w-auto">
+                                        <img src="{{ asset('images/brand/harfest-logo.png') }}" alt="Harfest" class="h-7 w-auto">
                                         <div>
                                             <span class="font-display text-lg text-hf-purple-900 tracking-wider block leading-none">HARFEST 2026</span>
                                             <span class="font-sans text-[10px] text-hf-pink-500 font-bold uppercase tracking-wider">Universitas Harkat Negeri</span>
@@ -157,12 +162,17 @@
                 @endforeach
             </div>
 
-            <!-- Bottom Print Button (Hidden on Print) -->
-            <div class="mt-10 text-center no-print">
+            <!-- Bottom Print & Download Buttons (Hidden on Print) -->
+            <div class="mt-10 flex flex-wrap justify-center items-center gap-4 no-print">
+                <a href="{{ route('orders.tickets.download', $order->booking_code) }}" 
+                   class="px-8 py-4 bg-emerald-500 hover:bg-emerald-600 text-white font-display text-base uppercase rounded-2xl border-3 border-hf-purple-900 shadow-hard btn-press inline-flex items-center gap-2">
+                    <span>📥</span>
+                    <span>Unduh File E-Tiket (PDF)</span>
+                </a>
                 <button onclick="window.print()" 
                         class="px-8 py-4 bg-hf-yellow-400 hover:bg-hf-yellow-500 text-hf-purple-900 font-display text-base uppercase rounded-2xl border-3 border-hf-purple-900 shadow-hard btn-press inline-flex items-center gap-2 cursor-pointer">
                     <span>🖨️</span>
-                    <span>Cetak Semua E-Tiket (PDF)</span>
+                    <span>Cetak via Browser</span>
                 </button>
             </div>
 

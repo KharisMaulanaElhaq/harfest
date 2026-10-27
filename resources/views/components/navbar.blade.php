@@ -86,9 +86,9 @@
                     <a href="{{ Route::has('orders.index') ? route('orders.index') : url('/orders') }}" class="text-white hover:text-hf-yellow-400 transition-colors {{ request()->is('orders*') ? 'underline decoration-hf-pink-500 decoration-4 underline-offset-8' : '' }}">
                         Pesanan Saya
                     </a>
-                    @if (Auth::user()->isAdmin())
+                    @if (Auth::user()->isAdmin() || Auth::user()->isStaff())
                         <a href="{{ Route::has('admin.dashboard') ? route('admin.dashboard') : url('/admin') }}" class="px-3.5 py-1.5 bg-hf-pink-500 text-white rounded-xl border-2 border-hf-purple-900 shadow-hard-sm hover:bg-hf-pink-400 text-xs font-black tracking-widest uppercase">
-                            ⚡ Panel Admin
+                            ⚡ {{ Auth::user()->isStaff() ? 'Panel Petugas' : 'Panel Admin' }}
                         </a>
                     @endif
                 @endauth
@@ -127,9 +127,9 @@
                                 🎟️ Pesanan & E-Tiket
                             </a>
 
-                            @if (Auth::user()->isAdmin())
+                            @if (Auth::user()->isAdmin() || Auth::user()->isStaff())
                                 <a href="{{ Route::has('admin.dashboard') ? route('admin.dashboard') : url('/admin') }}" class="block px-4 py-2.5 text-sm font-bold text-hf-pink-400 hover:bg-hf-magenta">
-                                    ⚙️ Dashboard Admin
+                                    ⚙️ {{ Auth::user()->isStaff() ? 'Panel Staff' : 'Dashboard Admin' }}
                                 </a>
                             @endif
 
@@ -194,9 +194,9 @@
             <a href="{{ Route::has('orders.index') ? route('orders.index') : url('/orders') }}" @click="mobileMenuOpen = false" class="block px-3 py-2 rounded-xl text-base text-white hover:bg-hf-magenta hover:text-hf-yellow-400">
                 📦 Pesanan Saya
             </a>
-            @if (Auth::user()->isAdmin())
+            @if (Auth::user()->isAdmin() || Auth::user()->isStaff())
                 <a href="{{ Route::has('admin.dashboard') ? route('admin.dashboard') : url('/admin') }}" @click="mobileMenuOpen = false" class="block px-3 py-2 rounded-xl text-base text-hf-pink-400 hover:bg-hf-magenta">
-                    ⚡ Panel Admin
+                    ⚡ {{ Auth::user()->isStaff() ? 'Panel Petugas' : 'Panel Admin' }}
                 </a>
             @endif
             <div class="pt-3 border-t-2 border-hf-purple-700 normal-case font-normal">
