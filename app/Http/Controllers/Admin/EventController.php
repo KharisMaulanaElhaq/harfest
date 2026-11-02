@@ -54,7 +54,7 @@ class EventController extends Controller
             $request->merge(['slug' => 'vol-' . $request->input('edition')]);
         }
         if (! $request->filled('status')) {
-            $request->merge(['status' => EventStatus::OnSale->value]);
+            $request->merge(['status' => EventStatus::Draft->value]);
         }
 
         $validated = $request->validate([

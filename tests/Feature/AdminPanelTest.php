@@ -2,6 +2,7 @@
 
 namespace Tests\Feature;
 
+use App\Enums\EventStatus;
 use App\Enums\OrderStatus;
 use App\Enums\UserRole;
 use App\Models\Band;
@@ -40,7 +41,7 @@ class AdminPanelTest extends TestCase
             'description' => 'Festival Musik Tahunan',
             'venue' => 'Lapangan Utama',
             'event_date' => now()->addDays(30),
-            'is_active' => true,
+            'status' => EventStatus::OnSale,
         ]);
 
         $this->ticketType = TicketType::create([
@@ -236,6 +237,7 @@ class AdminPanelTest extends TestCase
             'name' => 'HARFEST REVOLUTION 2026',
             'venue' => 'Amfiteater Kampus Pusat',
         ]);
+        app(\App\Services\EventService::class)->clearCache();
 
         // 2. Update ticket price
         $this->ticketType->update([
@@ -256,5 +258,37 @@ class AdminPanelTest extends TestCase
         $landingResponse->assertSee('Amfiteater Kampus Pusat');
         $landingResponse->assertSee('55.000');
         $landingResponse->assertSee('The Dynamic Echoes');
+    }
+
+    public function test_staff_role_permissions_and_restrictions(): void
+    {
+        $staff = User::factory()->create([
+            'role' => UserRole::Staff,
+            'phone' => '081299887766',
+        ]);
+
+        // Staff can access Dashboard
+        $this->actingAs($staff)->get(route('admin.dashboard'))->assertOk();
+
+        // Staff can access Orders
+        $this->actingAs($staff)->get(route('admin.orders.index'))->assertOk();
+
+        // Staff can access Check-in Scanner
+        $this->actingAs($staff)->get(route('admin.checkin.index'))->assertOk();
+
+        // Staff can access Event Switcher
+        $this->actingAs($staff)->post(route('admin.events.switch', $this->event))->assertRedirect();
+
+        // Staff MUST NOT access Events (403)
+        $this->actingAs($staff)->get(route('admin.events.index'))->assertForbidden();
+
+        // Staff MUST NOT access Ticket Types (403)
+        $this->actingAs($staff)->get(route('admin.ticket-types.index'))->assertForbidden();
+
+        // Staff MUST NOT access Bands (403)
+        $this->actingAs($staff)->get(route('admin.bands.index'))->assertForbidden();
+
+        // Staff MUST NOT access Payments (403)
+        $this->actingAs($staff)->get(route('admin.payments.index'))->assertForbidden();
     }
 }

@@ -245,6 +245,14 @@
                         </template>
                     </div>
 
+                    <!-- Alert / Catatan Akses Kamera -->
+                    <div class="p-3 bg-amber-50 rounded-xl border-2 border-amber-300 text-amber-900 text-xs font-sans flex items-start gap-2.5 shadow-xs">
+                        <span class="text-base flex-shrink-0">💡</span>
+                        <div class="leading-relaxed">
+                            <span class="font-bold">Catatan:</span> Akses kamera (QR Scanner) memerlukan koneksi HTTPS atau akses via <code class="bg-amber-100 px-1 py-0.5 rounded font-mono font-bold">localhost</code>/<code class="bg-amber-100 px-1 py-0.5 rounded font-mono font-bold">127.0.0.1</code>. Jika kamera tidak muncul, gunakan fitur Input Manual.
+                        </div>
+                    </div>
+
                     <!-- Video Viewfinder Container -->
                     <div class="relative bg-black rounded-2xl overflow-hidden border-2 border-hf-purple-900 aspect-square flex items-center justify-center">
                         <div id="qr-reader" class="w-full h-full"></div>

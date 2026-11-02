@@ -21,7 +21,7 @@ class TicketController extends Controller
         $event = $eventService->active();
 
         $ticketTypes = $event 
-            ? $event->ticketTypes()->where('is_active', true)->orderBy('price')->get() 
+            ? $event->ticketTypes()->withQuotaStats()->where('is_active', true)->orderBy('price')->get() 
             : collect();
 
         return view('tickets.index', compact('event', 'ticketTypes'));

@@ -2,6 +2,7 @@
 
 namespace Tests\Feature;
 
+use App\Enums\EventStatus;
 use App\Enums\OrderStatus;
 use App\Enums\PaymentStatus;
 use App\Enums\UserRole;
@@ -62,7 +63,7 @@ class ArchitectureCoreScenariosTest extends TestCase
             'description' => 'Campus Music Festival',
             'venue' => 'Lapangan Utama',
             'event_date' => now()->addMonth(),
-            'is_active' => true,
+            'status' => EventStatus::OnSale,
         ]);
 
         $this->singleTicket = TicketType::create([

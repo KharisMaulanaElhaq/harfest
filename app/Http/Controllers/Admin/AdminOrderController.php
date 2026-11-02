@@ -3,9 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
-use App\Models\Event;
 use App\Models\Order;
-use App\Services\EventService;
 use Illuminate\Http\Request;
 use Illuminate\View\View;
 use Symfony\Component\HttpFoundation\StreamedResponse;
@@ -14,12 +12,11 @@ class AdminOrderController extends Controller
 {
     /**
      * Display listing of all orders with filters, search, and working event scoping.
+     * The current event is resolved by SetAdminEvent middleware.
      */
-    public function index(Request $request, EventService $eventService): View
+    public function index(Request $request): View
     {
-        $currentEvent = $request->attributes->get('admin_event') 
-            ?? $eventService->active() 
-            ?? Event::orderBy('edition', 'desc')->first();
+        $currentEvent = $request->attributes->get('admin_event');
 
         $statusFilter = $request->query('status', 'all');
         $search = trim($request->query('q', ''));
@@ -53,12 +50,11 @@ class AdminOrderController extends Controller
 
     /**
      * Export filtered or all orders for working event as CSV (streamed response with UTF-8 BOM for Excel).
+     * The current event is resolved by SetAdminEvent middleware.
      */
-    public function export(Request $request, EventService $eventService): StreamedResponse
+    public function export(Request $request): StreamedResponse
     {
-        $currentEvent = $request->attributes->get('admin_event') 
-            ?? $eventService->active() 
-            ?? Event::orderBy('edition', 'desc')->first();
+        $currentEvent = $request->attributes->get('admin_event');
 
         $statusFilter = $request->query('status', 'all');
         $search = trim($request->query('q', ''));

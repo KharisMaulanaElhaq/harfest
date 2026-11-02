@@ -5,9 +5,7 @@ namespace App\Http\Controllers\Admin;
 use App\Enums\PaymentStatus;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\RejectPaymentRequest;
-use App\Models\Event;
 use App\Models\Payment;
-use App\Services\EventService;
 use App\Services\PaymentService;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
@@ -18,12 +16,11 @@ class PaymentVerificationController extends Controller
 {
     /**
      * Display a listing of payments requiring verification, filtered by working event.
+     * The current event is resolved by SetAdminEvent middleware.
      */
-    public function index(Request $request, EventService $eventService): View
+    public function index(Request $request): View
     {
-        $currentEvent = $request->attributes->get('admin_event') 
-            ?? $eventService->active() 
-            ?? Event::orderBy('edition', 'desc')->first();
+        $currentEvent = $request->attributes->get('admin_event');
 
         $statusFilter = $request->query('status', 'pending');
 

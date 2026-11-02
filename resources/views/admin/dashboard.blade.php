@@ -45,6 +45,7 @@
             </div>
 
             <!-- C. MENUNGGU VERIFIKASI -->
+            @can('is-admin')
             <a href="{{ route('admin.payments.index') }}" 
                class="p-5 sm:p-6 bg-white rounded-3xl border-3 border-hf-purple-900 shadow-hard flex flex-col justify-between transition-all hover:-translate-y-1 group">
                 <div class="flex items-center justify-between">
@@ -66,6 +67,27 @@
                     </span>
                 </div>
             </a>
+            @else
+            <div class="p-5 sm:p-6 bg-white rounded-3xl border-3 border-hf-purple-900 shadow-hard flex flex-col justify-between">
+                <div class="flex items-center justify-between">
+                    <span class="text-xs font-display uppercase tracking-wider text-slate-500">Menunggu Verifikasi</span>
+                    <span class="w-10 h-10 rounded-2xl bg-hf-blue-400 text-hf-purple-900 flex items-center justify-center border-2 border-hf-purple-900 shadow-hard-xs text-xl">
+                        ⏳
+                    </span>
+                </div>
+                <div class="mt-4">
+                    <div class="flex items-baseline gap-2">
+                        <span class="font-display text-2xl sm:text-3xl font-black block tracking-tight {{ $waitingVerificationCount > 0 ? 'text-hf-pink-600' : 'text-hf-purple-900' }}">
+                            {{ $waitingVerificationCount }}
+                        </span>
+                        <span class="text-xs font-sans text-slate-500 font-bold">pesanan</span>
+                    </div>
+                    <span class="text-[11px] text-slate-500 font-sans mt-1">
+                        Diverifikasi oleh tim admin
+                    </span>
+                </div>
+            </div>
+            @endcan
 
             <!-- D. TOTAL TRANSAKSI LUNAS -->
             <div class="p-5 sm:p-6 bg-white rounded-3xl border-3 border-hf-purple-900 shadow-hard flex flex-col justify-between transition-all hover:-translate-y-1">
@@ -101,11 +123,13 @@
                             </h3>
                         </div>
 
+                        @can('is-admin')
                         <a href="{{ route('admin.ticket-types.index') }}" 
                            class="text-xs font-display text-hf-pink-600 hover:text-hf-pink-500 flex items-center gap-1">
                             <span>Kelola Tiket</span>
                             <span>→</span>
                         </a>
+                        @endcan
                     </div>
 
                     <div class="space-y-4">

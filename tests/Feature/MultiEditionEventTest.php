@@ -200,7 +200,7 @@ class MultiEditionEventTest extends TestCase
             'is_used' => false,
         ]);
 
-        // 2. Petugas scan tiket Vol 1 di gate pemeriksaan Vol 2
+        // 2. Staff tiket Vol 1 di gate pemeriksaan Vol 2
         $checkinService = app(CheckinService::class);
         $result = $checkinService->verify($vol1TicketCode, $this->admin, $this->vol2);
 

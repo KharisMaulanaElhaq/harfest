@@ -50,7 +50,7 @@ class Event extends Model
                 $event->slug = 'vol-' . $event->edition;
             }
             if (empty($event->status)) {
-                $event->status = EventStatus::OnSale;
+                $event->status = EventStatus::Draft;
             }
         });
     }

@@ -2,6 +2,7 @@
 
 namespace Tests\Feature;
 
+use App\Enums\EventStatus;
 use App\Enums\OrderStatus;
 use App\Enums\UserRole;
 use App\Models\Event;
@@ -44,7 +45,7 @@ class OrderFlowTest extends TestCase
             'description' => 'Test event',
             'venue' => 'Lapangan Utama',
             'event_date' => now()->addMonth(),
-            'is_active' => true,
+            'status' => EventStatus::OnSale,
         ]);
 
         $this->regularTicket = TicketType::create([

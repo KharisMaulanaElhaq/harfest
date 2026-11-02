@@ -2,6 +2,7 @@
 
 namespace App\Http\Middleware;
 
+use App\Enums\UserRole;
 use Closure;
 use Illuminate\Http\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -15,8 +16,16 @@ class EnsureUserIsAdmin
      */
     public function handle(Request $request, Closure $next): Response
     {
-        if (! $request->user() || ! $request->user()->isAdmin()) {
-            abort(403, 'Akses khusus administrator.');
+        $user = $request->user();
+
+        if (! $user) {
+            abort(403, 'Akses khusus administrator dan petugas.');
+        }
+
+        $role = $user->role instanceof UserRole ? $user->role->value : (string) $user->role;
+
+        if (! in_array($role, ['admin', 'staff'], true)) {
+            abort(403, 'Akses khusus administrator dan petugas.');
         }
 
         return $next($request);
