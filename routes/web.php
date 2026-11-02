@@ -28,8 +28,10 @@ Route::middleware('auth')->group(function () {
     Route::post('/orders/{order:booking_code}/cancel', [OrderController::class, 'cancel'])->name('orders.cancel');
     Route::get('/files/student-card/{order:booking_code}', [FileController::class, 'studentCard'])->name('files.student-card');
     Route::get('/files/payment/{payment}', [FileController::class, 'payment'])->name('files.payment');
-    Route::get('/orders/{order:booking_code}/tickets', [\App\Http\Controllers\ETicketController::class, 'show'])->name('orders.tickets');
-    Route::get('/orders/{order:booking_code}/tickets/download', [\App\Http\Controllers\ETicketController::class, 'download'])->name('orders.tickets.download');
+    Route::get('/orders/{order:booking_code}/tickets', [TicketController::class, 'showOrderTickets'])->name('orders.tickets');
+    Route::get('/orders/{order:booking_code}/tickets/pdf', [TicketController::class, 'downloadOrderTicketsPdf'])->name('orders.tickets.pdf');
+    Route::get('/orders/{order:booking_code}/tickets/download', [TicketController::class, 'downloadOrderTicketsPdf'])->name('orders.tickets.download');
+    Route::get('/orders/{order:booking_code}/tickets/{ticket:ticket_code}/pdf', [TicketController::class, 'downloadSingleTicketPdf'])->name('orders.tickets.single.pdf');
 });
 
 // Admin & Staff Panel (auth + role.admin + admin.event)

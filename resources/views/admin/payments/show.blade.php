@@ -32,10 +32,10 @@
             <div class="text-left sm:text-right font-sans">
                 <span class="text-xs text-purple-300 block">Dipesan pada:</span>
                 <span class="font-bold text-sm text-white block">
-                    {{ $payment->order->created_at->translatedFormat('d F Y, H:i') }} WIB
+                    {{ format_wib($payment->order->created_at) }}
                 </span>
                 <span class="text-xs text-purple-300">
-                    Batas Bayar: {{ $payment->order->expires_at->translatedFormat('d F Y, H:i') }} WIB
+                    Batas Bayar: {{ format_wib($payment->order->expires_at) }}
                 </span>
             </div>
         </div>
@@ -109,7 +109,7 @@
                         </div>
                         <div>
                             <span class="text-slate-500 block">Waktu Pengunggahan:</span>
-                            <span class="text-slate-800 font-medium">{{ $payment->created_at->translatedFormat('d F Y, H:i:s') }} WIB</span>
+                            <span class="text-slate-800 font-medium">{{ format_wib($payment->created_at) }}</span>
                         </div>
                         <div>
                             <span class="text-slate-500 block">Rekening Tujuan Panitia:</span>
@@ -291,7 +291,7 @@
                                 <span>Pembayaran Disetujui</span>
                             </div>
                             <p>Diverifikasi oleh: <strong>{{ $payment->verifier?->name ?? 'Admin' }}</strong></p>
-                            <p>Waktu Verifikasi: <strong>{{ $payment->verified_at?->translatedFormat('d F Y, H:i') }} WIB</strong></p>
+                            <p>Waktu Verifikasi: <strong>{{ format_wib($payment->verified_at) }}</strong></p>
                             <p class="text-emerald-700 pt-1">
                                 Tiket elektronik resmi sudah terbit dan dikirimkan ke akun pemesan.
                             </p>
@@ -303,7 +303,7 @@
                                 <span>Pembayaran Ditolak</span>
                             </div>
                             <p>Ditolak oleh: <strong>{{ $payment->verifier?->name ?? 'Admin' }}</strong></p>
-                            <p>Waktu: <strong>{{ $payment->verified_at?->translatedFormat('d F Y, H:i') }} WIB</strong></p>
+                            <p>Waktu: <strong>{{ format_wib($payment->verified_at) }}</strong></p>
                             <div class="p-2.5 bg-white rounded-xl border border-rose-200 mt-2">
                                 <span class="text-slate-500 block text-[10px] uppercase font-bold">Alasan Penolakan:</span>
                                 <span class="font-medium text-rose-950">{{ $payment->reject_reason }}</span>

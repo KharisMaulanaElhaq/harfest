@@ -68,12 +68,12 @@ class CheckinService
 
             // 4. Ticket already used
             if ($ticket->is_used) {
-                $usedAtFormatted = $ticket->used_at?->translatedFormat('d M Y, H:i') ?? '-';
+                $usedAtFormatted = format_wib($ticket->used_at);
                 $checkerName = $ticket->checker?->name ?? 'Petugas';
 
                 return [
                     'result' => 'used',
-                    'message' => "Tiket sudah pernah digunakan pada {$usedAtFormatted} WIB oleh {$checkerName}.",
+                    'message' => "Tiket sudah pernah digunakan pada {$usedAtFormatted} oleh {$checkerName}.",
                     'ticket' => $ticket,
                     'holder_name' => $ticket->holder_name,
                     'ticket_type' => $ticket->order->ticketType?->name,

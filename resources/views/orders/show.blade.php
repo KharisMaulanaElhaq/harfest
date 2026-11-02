@@ -33,7 +33,7 @@
                     <div class="text-left sm:text-right">
                         <span class="text-xs text-purple-300 block font-sans">Tanggal Pemesanan:</span>
                         <span class="font-sans font-bold text-sm sm:text-base text-white">
-                            {{ $order->created_at->translatedFormat('d F Y, H:i') }} WIB
+                            {{ format_wib($order->created_at) }}
                         </span>
                     </div>
                 </div>
@@ -46,7 +46,7 @@
                             
                             <!-- Countdown Timer with Alpine.js -->
                             <div x-data="{
-                                    expiry: new Date('{{ $order->expires_at->toISOString() }}').getTime(),
+                                    expiry: new Date('{{ $order->expires_at->toIso8601String() }}').getTime(),
                                     now: new Date().getTime(),
                                     hours: 0,
                                     minutes: 0,
@@ -105,7 +105,7 @@
                                 </template>
 
                                 <p class="text-xs text-purple-950 font-sans">
-                                    Batas pembayaran: <strong>{{ $order->expires_at->translatedFormat('d F Y, H:i') }} WIB</strong>
+                                    Batas pembayaran: <strong>{{ format_wib($order->expires_at) }}</strong>
                                 </p>
                             </div>
 
@@ -510,7 +510,7 @@
                                 <div class="mt-3 p-4 bg-white rounded-2xl border-2 border-blue-200 text-xs sm:text-sm space-y-2">
                                     <div class="flex flex-wrap items-center justify-between gap-2 border-b border-gray-100 pb-2">
                                         <span class="text-gray-500 font-sans">Waktu Pengunggahan:</span>
-                                        <span class="font-bold text-blue-900">{{ $order->latestPayment->created_at->translatedFormat('d F Y, H:i') }} WIB</span>
+                                        <span class="font-bold text-blue-900">{{ format_wib($order->latestPayment->created_at) }}</span>
                                     </div>
                                     @if ($order->latestPayment->bank_name || $order->latestPayment->sender_name)
                                         <div class="flex flex-wrap items-center justify-between gap-2 border-b border-gray-100 pb-2">

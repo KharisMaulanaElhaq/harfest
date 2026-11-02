@@ -218,7 +218,7 @@
                                         </td>
                                         <td class="p-3">
                                             <strong class="font-bold text-slate-800 block truncate max-w-[140px]">{{ $ro->user->name }}</strong>
-                                            <span class="text-[10px] text-slate-400 block">{{ $ro->created_at->translatedFormat('d M H:i') }}</span>
+                                            <span class="text-[10px] text-slate-400 block">{{ format_wib($ro->created_at) }}</span>
                                         </td>
                                         <td class="p-3">
                                             <span class="block truncate max-w-[130px] font-medium text-slate-700">{{ $ro->ticketType->name }}</span>

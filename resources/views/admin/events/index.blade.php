@@ -67,7 +67,7 @@
                             <div class="grid grid-cols-1 sm:grid-cols-2 gap-2 text-slate-700 bg-slate-50 p-3 rounded-2xl border border-slate-200">
                                 <div>
                                     <span class="text-[10px] uppercase font-bold text-slate-400 block">Tanggal Konser:</span>
-                                    <strong>{{ $ev->event_date?->translatedFormat('d M Y, H:i') ?? 'Belum ditentukan' }} WIB</strong>
+                                    <strong>{{ $ev->event_date ? format_wib($ev->event_date) : 'Belum ditentukan' }}</strong>
                                 </div>
                                 <div>
                                     <span class="text-[10px] uppercase font-bold text-slate-400 block">Lokasi:</span>
@@ -77,8 +77,8 @@
                                     <span class="text-[10px] uppercase font-bold text-slate-400 block">Jadwal Tiket:</span>
                                     @if ($ev->sales_open_at || $ev->sales_close_at)
                                         <span class="text-[11px] font-medium text-slate-600">
-                                            {{ $ev->sales_open_at ? $ev->sales_open_at->translatedFormat('d M Y H:i') : 'Mulai sekarang' }} s/d 
-                                            {{ $ev->sales_close_at ? $ev->sales_close_at->translatedFormat('d M Y H:i') : 'Selesai konser' }}
+                                            {{ $ev->sales_open_at ? format_wib($ev->sales_open_at) : 'Mulai sekarang' }} s/d 
+                                            {{ $ev->sales_close_at ? format_wib($ev->sales_close_at) : 'Selesai konser' }}
                                         </span>
                                     @else
                                         <span class="text-[11px] text-slate-500">Mengikuti status publikasi ({{ $ev->status->label() }})</span>

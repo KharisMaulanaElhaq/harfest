@@ -95,9 +95,8 @@
                                     @endif
                                 </td>
 
-                                <td class="p-3.5 text-slate-500 whitespace-nowrap">
-                                    <div>{{ $order->created_at->translatedFormat('d M Y') }}</div>
-                                    <div class="text-[10px] text-slate-400">{{ $order->created_at->format('H:i') }} WIB</div>
+                                <td class="p-3.5 text-slate-500 whitespace-nowrap text-xs">
+                                    {{ format_wib($order->created_at) }}
                                 </td>
 
                                 <td class="p-3.5">

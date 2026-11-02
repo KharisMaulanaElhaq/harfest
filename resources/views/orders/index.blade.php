@@ -50,7 +50,7 @@
                                         <x-status-badge :status="$order->status" />
                                     </div>
                                     <span class="text-xs text-gray-500 font-sans block mt-1">
-                                        Dipesan pada {{ $order->created_at->translatedFormat('d F Y, H:i') }} WIB
+                                        Dipesan pada {{ format_wib($order->created_at) }}
                                     </span>
                                 </div>
 

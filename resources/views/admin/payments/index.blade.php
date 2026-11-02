@@ -117,8 +117,7 @@
 
                                 <!-- Date -->
                                 <td class="p-3.5 sm:p-4 text-center text-xs text-slate-500 whitespace-nowrap">
-                                    <div>{{ $payment->created_at->translatedFormat('d M Y') }}</div>
-                                    <div class="text-[10px] text-slate-400">{{ $payment->created_at->format('H:i') }} WIB</div>
+                                    {{ format_wib($payment->created_at) }}
                                 </td>
 
                                 <!-- Action -->
