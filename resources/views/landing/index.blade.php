@@ -1,18 +1,46 @@
 <x-app-layout>
     <x-slot:title>Harfest 2026 - Harkat Negeri Fest</x-slot:title>
 
-    <!-- 1. HERO SECTION (Magenta #9A0474 + Logo Transparan Resmi Tanpa Crop) -->
-    <section class="relative bg-hf-pattern pt-3 pb-10 sm:pt-10 sm:pb-24 px-4 sm:px-6 lg:px-8 border-b-4 border-hf-purple-900 overflow-hidden">
-        <!-- Background Vignette Overlay -->
-        <div class="absolute inset-0 bg-gradient-to-b from-black/15 via-transparent to-black/25 pointer-events-none"></div>
+    <!-- 1. HERO SECTION -->
+<section class="relative isolate pt-3 pb-10 sm:pt-10 sm:pb-24 px-4 sm:px-6 lg:px-8 overflow-hidden"
+         style="background: linear-gradient(150deg, #5a0a80 0%, #4d0070 45%, #5b0a78 100%); background-origin: border-box; background-clip: border-box;">
 
-        <!-- Decorative Floating Mascots in Hero Corners (Absolute, outside text area, z-0) -->
-        <div class="hidden lg:block absolute left-4 xl:left-8 top-16 z-0 pointer-events-none opacity-85">
+    <!-- Pattern: tone-on-tone, sedikit lebih terang dari dasar -->
+    <img src="{{ asset('images/brand/bg_pettern.png') }}"
+         alt="Hero Pattern"
+         class="absolute inset-0 w-full h-full object-cover object-center pointer-events-none z-0 opacity-100 mix-blend-overlay select-none">
+
+    <!-- Glow oranye kiri atas -->
+    <div class="absolute inset-0 pointer-events-none z-[1]"
+         style="background: radial-gradient(circle at 0% 0%,
+                rgba(255, 150, 90, 0.90) 0%,
+                rgba(230, 90, 130, 0.50) 20%,
+                rgba(140, 30, 110, 0.20) 40%,
+                transparent 80%);"></div>
+
+    <!-- Glow oranye-pink kanan bawah -->
+    <div class="absolute inset-0 pointer-events-none z-[1]"
+         style="background: radial-gradient(circle at 100% 100%,
+                rgba(255, 150, 90, 0.90) 0%,
+                rgba(230, 90, 130, 0.50) 20%,
+                rgba(140, 30, 110, 0.20) 40%,
+                transparent 80%);"></div>
+
+    <!-- Vignette halus agar logo tetap fokus -->
+    <div class="absolute inset-0 pointer-events-none z-[1]"
+         style="background: radial-gradient(ellipse at center, transparent 45%, rgba(40, 0, 50, 0.35) 100%);"></div>
+
+    <!-- Garis bawah (pengganti border-b-4), full width tanpa celah -->
+    <div class="absolute bottom-0 left-0 right-0 h-1 bg-hf-purple-900 pointer-events-none z-[2]"></div>
+
+    
+<!-- Decorative Floating Mascots in Hero Corners (Absolute, outside text area, z-0) -->
+        <div class="hidden lg:block absolute left-4 xl:left-8 top-16 z-10 pointer-events-none opacity-85">
             <img src="{{ asset('images/brand/globe.png') }}" 
                  alt="Globe Mascot" 
                  class="w-28 md:w-36 xl:w-44 h-auto object-contain animate-float drop-shadow-[4px_4px_0_#4D0570]">
         </div>
-        <div class="hidden lg:block absolute right-4 xl:right-8 top-20 z-0 pointer-events-none opacity-85">
+        <div class="hidden lg:block absolute right-4 xl:right-8 top-20 z-10 pointer-events-none opacity-85">
             <img src="{{ asset('images/brand/player.png') }}" 
                  alt="Player Mascot" 
                  class="w-24 md:w-32 xl:w-36 h-auto object-contain animate-float-reverse drop-shadow-[4px_4px_0_#4D0570]">
@@ -84,7 +112,7 @@
             </div>
 
             <!-- Price Quick Bar (Label Kuning #FFD000 untuk kontras tinggi) -->
-            <div class="mt-5 sm:mt-10 pt-3 sm:pt-6 border-t-2 border-hf-purple-900/40 w-full max-w-2xl flex flex-wrap justify-center items-center gap-2.5 sm:gap-4 relative z-10">
+            <div class="mt-5 sm:mt-10 pt-3 sm:pt-6 border-t-2 border-dashed border-[#FFD100]/50 w-full max-w-2xl flex flex-wrap justify-center items-center gap-2.5 sm:gap-4 relative z-10">
                 <span class="text-xs font-black uppercase tracking-widest text-hf-yellow-400 w-full text-center mb-1 drop-shadow-sm">Pilihan Tiket:</span>
                 @forelse ($ticketTypes as $tIdx => $tQuick)
                     @php
