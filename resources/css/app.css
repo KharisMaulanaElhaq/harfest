@@ -43,7 +43,7 @@
 
     /* Hard Shadows matching official dark purple #4D0570 */
     .shadow-hard {
-        box-shadow: 4px 4px 0px #4D0570;
+        box-shadow: 0 4px 0 0 #3a0057; /* X = 0 */
     }
 
     .shadow-hard-sm {
